@@ -1,6 +1,6 @@
 import math
 
-from chat_exporter.build_html import fill_out, img_attachment, msg_attachment, audio_attachment, PARSE_MODE_NONE
+from chat_exporter.build_html import fill_out, img_attachment, msg_attachment, audio_attachment, PARSE_MODE_NONE, video_attachment
 
 
 class BuildAttachment:
@@ -33,7 +33,7 @@ class BuildAttachment:
         ])
     
     async def video(self):
-        self.attachments = await fill_out(self.guild, img_attachment, [
+        self.attachments = await fill_out(self.guild, video_attachment, [
             ("ATTACH_URL", self.attachments.proxy_url, PARSE_MODE_NONE)
         ])
 
