@@ -55,10 +55,10 @@ async def raw_export(
         print(f"Please send a screenshot of the above error to https://www.github.com/mahtoid/DiscordChatExporterPy")
 
 
-async def quick_export(ctx):
+async def quick_export(message):
     # noinspection PyBroadException
     try:
-        transcript = await Transcript.export(ctx.channel, None, "Europe/London")
+        transcript = await Transcript.export(message.channel, None, "Europe/London")
     except Exception:
         traceback.print_exc()
         error_embed = discord.Embed(
@@ -66,29 +66,29 @@ async def quick_export(ctx):
             description="Whoops! We've stumbled in to an issue here.",
             colour=discord.Colour.red()
         )
-        await ctx.channel.send(embed=error_embed)
+        await message.channel.send(embed=error_embed)
         print(f"Please send a screenshot of the above error to https://www.github.com/mahtoid/DiscordChatExporterPy")
         return
 
-    async for m in ctx.channel.history(limit=None):
+    async for m in message.channel.history(limit=None):
         try:
             for f in m.attachments:
-                if f"transcript-{ctx.channel.name}.html" in f.filename:
+                if f"transcript-{message.channel.name}.html" in f.filename:
                     await m.delete()
         except TypeError:
             continue
 
     # Save transcript
     transcript_embed = discord.Embed(
-        description=f"**Transcript Name:** transcript-{ctx.channel.name}\n\n"
-                    f"{ctx.author.mention} requested a transcript of the channel",
+        description=f"**Transcript Name:** transcript-{message.channel.name}\n\n"
+                    f"{message.author.mention} requested a transcript of the channel",
         colour=discord.Colour.blurple()
     )
 
     transcript_file = discord.File(io.BytesIO(transcript.html.encode()),
-                                   filename=f"transcript-{ctx.channel.name}.html")
+                                   filename=f"transcript-{message.channel.name}.html")
 
-    await ctx.send(embed=transcript_embed, file=transcript_file)
+    await message.send(embed=transcript_embed, file=transcript_file)
 
 
 @dataclass
