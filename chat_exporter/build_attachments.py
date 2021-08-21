@@ -5,6 +5,7 @@ from chat_exporter.build_html import fill_out, img_attachment, msg_attachment, a
 
 class BuildAttachment:
     image_types = ".png", ".jpeg", ".jpg", ".gif"
+    video_types = ".mov", ".mkv", ".mp4"
     audio: str = ""
     file_icon: str = ""
 
@@ -20,6 +21,8 @@ class BuildAttachment:
     async def build_attachment(self):
         if str(self.attachments.url).endswith(self.image_types):
             await self.image()
+        elif str(self.attachments.url).endswith(self.video_types):
+            await self.video()
         else:
             await self.file()
 
@@ -27,6 +30,11 @@ class BuildAttachment:
         self.attachments = await fill_out(self.guild, img_attachment, [
             ("ATTACH_URL", self.attachments.proxy_url, PARSE_MODE_NONE),
             ("ATTACH_URL_THUMB", self.attachments.proxy_url, PARSE_MODE_NONE)
+        ])
+    
+    async def video(self):
+        self.attachments = await fill_out(self.guild, img_attachment, [
+            ("ATTACH_URL", self.attachments.proxy_url, PARSE_MODE_NONE)
         ])
 
     async def file(self):
