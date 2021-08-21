@@ -9,7 +9,7 @@ setup(
     author="mahtoid",
     description="A simple Discord chat exporter for Python Discord bots.",
     long_description=long_description,
-    url="https://github.com/mahtoid/DiscordChatExporterPy",
+    url="https://github.com/surya62579/DiscordChatExporterPy",
     packages=find_packages(),
     package_data={'': [r'chat_exporter/chat_exporter_html/*.html']},
     include_package_data=True,
