@@ -88,7 +88,7 @@ async def quick_export(message):
     transcript_file = discord.File(io.BytesIO(transcript.html.encode()),
                                    filename=f"transcript-{message.channel.name}.html")
 
-    await message.send(embed=transcript_embed, file=transcript_file)
+    await message.channel.send(embed=transcript_embed, file=transcript_file)
 
 
 @dataclass
